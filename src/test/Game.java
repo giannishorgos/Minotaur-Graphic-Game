@@ -10,9 +10,8 @@
  * @Description The first part of the University Project on Data Structures Lecture 2020
  *
  */
-package test;
 
-import test.Player;
+//import Player;
 
 
 public class Game {
@@ -31,7 +30,7 @@ public class Game {
     
     public static void main(String[] args){
     	boolean minoWins = false; //check if Minotauros wins
-        int N = 15; //the dimensions of the board (NxN)
+        int N = 5; //the dimensions of the board (NxN)
         int S = 4; //number of the initial supplies on board
         int W = (N * N * 3 + 1) / 2; //max number of walls on board
         
@@ -40,7 +39,7 @@ public class Game {
         board.createBoard();
         
         //creates the 2 players
-        Player Thesseus = new Player(1, "Thesseus", board, 0, 0, 0);
+        MinMaxPlayer Thesseus = new MinMaxPlayer(1, "Thesseus", board, 0, 0, 0);
         Player Minotauros = new Player(2, "Minotauros", board, 0, N / 2, N / 2);
         
         //prints the board before any move
@@ -64,7 +63,7 @@ public class Game {
             System.out.println("Round: " + round++);
 
             System.out.print("Thesseus: ");
-            Thesseus.move(Thesseus.getTileId()); //Thesseus move
+            Thesseus.getNextMove(Thesseus.getTileId(), Minotauros.getTileId()); //Thesseus move
             if(Thesseus.getTileId() == Minotauros.getTileId()) { //checks if Minotauros wins
             	minoWins = true;
             }
@@ -92,13 +91,16 @@ public class Game {
             //Prints the final Winner if there is any
             if(minoWins) {
             	System.out.print("~~~ Minotauros WINS !!! ~~~");
+            	Thesseus.statistics();
             	return;
             }
             if(Thesseus.getScore() == S) {
             	System.out.print("~~~ Thesseus WINS !!! ~~~");
+            	Thesseus.statistics();
             	return;
             }
         }
         System.out.print("~~~ THERE IS NO WINNER !!! ~~~");
+        Thesseus.statistics();
     }
 }
